@@ -416,6 +416,7 @@ namespace ЛР1
             }
         }
 
+        
 
         private void DisplayTokensInDataGridView(List<Element> elements)
         {
@@ -465,7 +466,7 @@ namespace ЛР1
             editingTextBox.Visible = true;
         }
 
-        private void runParserButton_Click(object sender, EventArgs e)
+        private void runParserButton_Click_1(object sender, EventArgs e)
         {
             string inputText = editingTextBox.Text;
             List<Element> elements = lexemes.Tokenize(inputText);

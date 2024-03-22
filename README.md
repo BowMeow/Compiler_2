@@ -17,7 +17,8 @@
 
 **1. Диаграмма состояний сканера**
 
-![диаграмма состояний drawio (1)](https://github.com/BowMeow/Compiler_2/assets/117730315/e10a55e1-0221-465b-b4ed-770cc053f88b)
+
+![2 drawio](https://github.com/BowMeow/Compiler_2/assets/117730315/c7b8662a-788b-4c55-9503-971fb5ff6940)
 
 
 **Примеры работы кода**

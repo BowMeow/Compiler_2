@@ -44,5 +44,7 @@ namespace ЛР1
         FloatDigit = 13,
         IntDigit = 14,
         ExpDigit = 15,
+        String = 16,
+        Method = 17
     }
 }

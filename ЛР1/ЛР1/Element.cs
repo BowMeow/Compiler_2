@@ -8,10 +8,10 @@ namespace ЛР1
 {
     public class Element
     {
-        public ElementType Type { get; }
-        public string Value { get; }
-        public int LineNumber { get; }
-        public int StartPos { get; }
+        public ElementType Type { get; set; }
+        public string Value { get; set; }
+        public int LineNumber { get; set; }
+        public int StartPos { get; set; }
 
         public Element(ElementType type, string value, int lineNumber, int startPos)
         {

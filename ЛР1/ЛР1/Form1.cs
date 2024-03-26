@@ -16,11 +16,9 @@ namespace ЛР1
     {
         private int fileCounter = 1;
         private string openedFilePath;
-        private Lexemes lexemes;
         public Form1()
         {
             InitializeComponent();
-            lexemes = new Lexemes();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -332,7 +330,6 @@ namespace ЛР1
 
             try
             {
-
                 File.WriteAllText(openedFilePath, editingTextBox.Text);
                 MessageBox.Show("Файл успешно сохранен", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
@@ -428,13 +425,12 @@ namespace ЛР1
                 string location = $"с {element.StartPos} по {element.StartPos + element.Value.Length - 1} символ";
                 lexemeTable.Rows.Add(element.Type, typeDescription, element.Value, location);
             }
-
         }
 
         private void toolStripMenuStart_Click(object sender, EventArgs e)
         {
             string inputText = editingTextBox.Text;
-            List<Element> elements = lexemes.Tokenize(inputText);
+            var elements = inputText.Tokenize();
             DisplayTokensInDataGridView(elements);
             editingTextBox.Visible = true;
         }
@@ -442,8 +438,10 @@ namespace ЛР1
         private void runParserButton_Click_1(object sender, EventArgs e)
         {
             string inputText = editingTextBox.Text;
-            List<Element> elements = lexemes.Tokenize(inputText);
+            var elements = inputText.Tokenize();
+            lexemeTable.DataSource = null;
             DisplayTokensInDataGridView(elements);
+            
             editingTextBox.Visible = true;
         }
     }

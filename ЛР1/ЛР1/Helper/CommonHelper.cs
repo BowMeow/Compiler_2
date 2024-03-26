@@ -9,7 +9,9 @@ namespace ЛР1
 {
     public static class CommonHelper
     {
-        public static readonly string mainPattern = @"[A-Za-z_]+\s*|[-+]?[0-9]*\.?[0-9]+(?:[eE][-+]?[0-9]+)?|:.\d+e|\S";
+        private static readonly string _mainPattern = @"[A-Za-z_]+\s*|[-+]?[0-9]*\.?[0-9]+(?:[eE][-+]?[0-9]+)?|:.\d+e|\S";
+
+        private static List<Element> _elementList { get; set; } = new List<Element>();
 
         public static readonly Dictionary<ElementType, string> elementTitles = new Dictionary<ElementType, string>()
         {
@@ -28,7 +30,9 @@ namespace ЛР1
             {ElementType.Delimited, "Разделитель"},
             {ElementType.FloatDigit, "Число с плавающей точкой"},
             {ElementType.IntDigit, "Целое число"},
-            {ElementType.ExpDigit, "Экспоненциальная запись"}
+            {ElementType.ExpDigit, "Экспоненциальная запись"},
+            {ElementType.String, "Строка"},
+            {ElementType.Method, "Метод"}
         };
         public static readonly Dictionary<ElementType, string> applySymbols = new Dictionary<ElementType, string>()
         {
@@ -45,18 +49,65 @@ namespace ЛР1
             {ElementType.Delimited, " "},
         };
 
-        public static readonly Dictionary<ElementType, string> digitPatterns = new Dictionary<ElementType, string>()
+        private static readonly Dictionary<ElementType, string> digitPatterns = new Dictionary<ElementType, string>()
         {
             { ElementType.FloatDigit, @"^-?\d+\.?\d+?$"},
-            { ElementType.IntDigit, @"^[-+]?\d*\.?\d+(?:[eE][-+]?\d+)?$" },
+            { ElementType.IntDigit, @"^[-+]?\d*\?\d+(?:[eE][-+]?\d+)?$" },
             { ElementType.ExpDigit, @".\d+e" }
         };
 
-        public static ElementType SetElementType(this string value) => applySymbols.FirstOrDefault(x => x.Value == value).Key;
-
-        public static ElementType FindElementType(this string value)
+        private static readonly Dictionary<ElementType, string> stringPatterns = new Dictionary<ElementType, string>()
         {
-            foreach (var pattern in digitPatterns)
+            { ElementType.String, @"[A-Za-z_]+\s*" }
+        };
+
+        public static List<Element> Tokenize(this string input)
+        {
+            int lineNumber = 1;
+            int startPos = 1;
+            short positionInList = 0;
+
+            var mathesRegex = Regex.Matches(input, _mainPattern);
+
+            foreach (Match match in mathesRegex)
+            {
+                string value = match.Value.Trim();
+
+                //Определяем одиночные символы
+                ElementType type = value.SetElementType();
+
+                if (type == 0)
+                {
+                    type = value.FindElementType(digitPatterns);
+                }
+
+                if (type == ElementType.ERROR)
+                {
+                    type = value.FindElementType(stringPatterns);
+                }
+
+                _elementList.Add(new Element(type, value, lineNumber, startPos));
+                startPos += value.Length;
+
+                //Определяем имена переменных
+                if (positionInList != 0 && _elementList[positionInList].Type == ElementType.AssignmentOperator)
+                {
+                    _elementList[positionInList - 1].Type = ElementType.Parameter;
+                }
+
+                positionInList++;
+            }
+
+            //_elementList.SetStringElementType();
+
+            return _elementList;
+        }
+
+        private static ElementType SetElementType(this string value) => applySymbols.FirstOrDefault(x => x.Value == value).Key;
+
+        private static ElementType FindElementType(this string value, Dictionary<ElementType, string> patterns)
+        {
+            foreach (var pattern in patterns)
             {
                 var math = Regex.Matches(value, pattern.Value);
                 if (math.Count != 0) return pattern.Key;
@@ -64,7 +115,6 @@ namespace ЛР1
 
             return ElementType.ERROR;
         }
-
 
     }
 }

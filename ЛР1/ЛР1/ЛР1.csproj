@@ -46,9 +46,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommonHelper.cs" />
+    <Compile Include="Helper\CommonHelper.cs" />
     <Compile Include="Element.cs" />
-    <Compile Include="ElementType.cs" />
+    <Compile Include="Enums\ElementType.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>

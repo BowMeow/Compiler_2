@@ -8,17 +8,19 @@ namespace ЛР1
 {
     public class Element
     {
-        public int Type { get; }
+        public ElementType Type { get; }
         public string Value { get; }
         public int LineNumber { get; }
         public int StartPos { get; }
 
-        public Element(int type, string value, int lineNumber, int startPos)
+        public Element(ElementType type, string value, int lineNumber, int startPos)
         {
             Type = type;
             Value = value;
             LineNumber = lineNumber;
             StartPos = startPos;
         }
+
+        public Element() { }
     }
 }

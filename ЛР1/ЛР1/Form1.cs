@@ -122,7 +122,7 @@ namespace ЛР1
                     }
                     else
                     {
-                        return; 
+                        return;
                     }
                 }
             }
@@ -208,7 +208,7 @@ namespace ЛР1
 
         private void cutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (editingTextBox.SelectionLength > 0) 
+            if (editingTextBox.SelectionLength > 0)
             {
                 Clipboard.SetText(editingTextBox.SelectedText);
                 editingTextBox.SelectedText = "";
@@ -416,7 +416,7 @@ namespace ЛР1
             }
         }
 
-        
+
 
         private void DisplayTokensInDataGridView(List<Element> elements)
         {
@@ -424,38 +424,11 @@ namespace ЛР1
 
             foreach (var element in elements)
             {
-                string typeDescription = GetTypeString(element.Type);
+                var typeDescription = CommonHelper.elementTitles[element.Type];
                 string location = $"с {element.StartPos} по {element.StartPos + element.Value.Length - 1} символ";
                 lexemeTable.Rows.Add(element.Type, typeDescription, element.Value, location);
             }
 
-        }
-
-        private string GetTypeString(int type)
-        {
-            switch (type)
-            {
-                case -1:
-                    return "ERROR";
-                case 1:
-                    return "Имя переменной";
-                case 2:
-                    return "Оператор присваивания";
-                case 3:
-                    return "Кавычки";
-                case 4:
-                    return "Символ";
-                case 5:
-                    return "Экспоненциальная запись";
-                case 6:
-                    return "Пробел";
-                case 7:
-                    return "точка";
-                case 8:
-                    return "Число";
-                default:
-                    return "UNKNOWN";
-            }
         }
 
         private void toolStripMenuStart_Click(object sender, EventArgs e)

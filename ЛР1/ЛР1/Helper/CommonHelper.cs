@@ -9,8 +9,7 @@ namespace ЛР1
 {
     public static class CommonHelper
     {
-        private static readonly string _mainPattern = @"[A-Za-z_]+\s*|[-+]?[0-9]*\.?[0-9]+(?:[eE][-+]?[0-9]+)?|:.\d+e|\S";
-
+        private static readonly string _mainPattern = @"[A-Za-z_]+\s*|[-+]?[0-9]*\.?[0-9]+|(\.\d+e|\.\d*e|\.\de)|\S";
         private static List<Element> _elementList { get; set; } = new List<Element>();
 
         public static readonly Dictionary<ElementType, string> elementTitles = new Dictionary<ElementType, string>()
@@ -31,7 +30,7 @@ namespace ЛР1
             {ElementType.FloatDigit, "Число с плавающей точкой"},
             {ElementType.IntDigit, "Целое число"},
             {ElementType.ExpDigit, "Экспоненциальная запись"},
-            {ElementType.String, "Строка"},
+            //{ElementType.String, "Строка"},
             {ElementType.Method, "Метод"}
         };
         public static readonly Dictionary<ElementType, string> applySymbols = new Dictionary<ElementType, string>()
@@ -49,16 +48,18 @@ namespace ЛР1
             {ElementType.Delimited, " "},
         };
 
+
         private static readonly Dictionary<ElementType, string> digitPatterns = new Dictionary<ElementType, string>()
         {
-            { ElementType.FloatDigit, @"^-?\d+\.?\d+?$"},
-            { ElementType.IntDigit, @"^[-+]?\d*\?\d+(?:[eE][-+]?\d+)?$" },
-            { ElementType.ExpDigit, @".\d+e" }
+            { ElementType.ExpDigit, @"(\.\d+e|\.\d*e|\.\de)" },
+            { ElementType.IntDigit, @"^\d+$"  },
+            { ElementType.FloatDigit, @"^-?\d+\.?\d+?$"}
         };
 
         private static readonly Dictionary<ElementType, string> stringPatterns = new Dictionary<ElementType, string>()
         {
-            { ElementType.String, @"[A-Za-z_]+\s*" }
+            { ElementType.Method, @"[A-Za-z_]+\s*" }
+            //{ ElementType.String, @"[A-Za-z_]+\s*" }
         };
 
         public static List<Element> Tokenize(this string input)

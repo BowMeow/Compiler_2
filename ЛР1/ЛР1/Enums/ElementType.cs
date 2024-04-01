@@ -45,6 +45,7 @@ namespace ЛР1
         IntDigit = 14,
         ExpDigit = 15,
         String = 16,
-        Method = 17
+        RoundNumber=17,
+        Method = 18
     }
 }

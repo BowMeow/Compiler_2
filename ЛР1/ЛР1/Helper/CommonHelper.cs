@@ -5,11 +5,14 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
+
+//scientific_format = "{:.3e}".format(512349000.000000)54854
+
 namespace ЛР1
 {
     public static class CommonHelper
     {
-        private static readonly string _mainPattern = @"[A-Za-z_]+\s*|[-+]?[0-9]*\.?[0-9]+|(\.\d+e|\.\d*e|\.\de)|\S";
+        private static readonly string _mainPattern = @"[A-Za-z_]+\s*|[-+]?[0-9]*\.?[0-9]+|(e)|\S";
         private static List<Element> _elementList { get; set; } = new List<Element>();
 
         public static readonly Dictionary<ElementType, string> elementTitles = new Dictionary<ElementType, string>()
@@ -30,6 +33,7 @@ namespace ЛР1
             {ElementType.FloatDigit, "Число с плавающей точкой"},
             {ElementType.IntDigit, "Целое число"},
             {ElementType.ExpDigit, "Экспоненциальная запись"},
+            {ElementType.RoundNumber, "Округление числа" },
             //{ElementType.String, "Строка"},
             {ElementType.Method, "Метод"}
         };
@@ -51,9 +55,10 @@ namespace ЛР1
 
         private static readonly Dictionary<ElementType, string> digitPatterns = new Dictionary<ElementType, string>()
         {
-            { ElementType.ExpDigit, @"(\.\d+e|\.\d*e|\.\de)" },
+            { ElementType.ExpDigit, @"e" },
             { ElementType.IntDigit, @"^\d+$"  },
-            { ElementType.FloatDigit, @"^-?\d+\.?\d+?$"}
+            { ElementType.FloatDigit, @"^-?\d+\.\d+?$"},
+            { ElementType.RoundNumber, @"^\.\d+?$"}
         };
 
         private static readonly Dictionary<ElementType, string> stringPatterns = new Dictionary<ElementType, string>()
